@@ -211,7 +211,6 @@ The intra-day behaviors can be seen more explicitly in the following plots (Figu
 \captionsetup{justification=centering}
 \caption{PAR Intra-Day Behavior}
 \end{figure*}
-
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=1\textwidth]{eda_3.3.png}
@@ -219,11 +218,27 @@ The intra-day behaviors can be seen more explicitly in the following plots (Figu
 \caption{Temperature and Humidity Intra-Day Behavior}
 \end{figure*}
 
-To go further, we would like to see if we can quantify the relation between Incident PAR and other covariates. Hence, we used a Generalized Linear Model (GLM) with a Gamma sampling likelihood. Figure 12 shows the resulting coefficients. 
 
 
+\paragraph{}
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{eda_3.4.png}
+\captionsetup{justification=centering}
+\caption{Coefficients for Incident PAR}
+\end{figure*}
 
 \section{Interesting Findings}
+\paragraph{GLM - Incident PAR Factor Analysis}
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{eda_3.5.png}
+\captionsetup{justification=centering}
+\caption{Incident PAR - GLM Coefficients}
+\end{figure*}
+To go further, we would like to see if we can quantify the relation between Incident PAR and other covariates. Hence, we used a Generalized Linear Model (GLM) with a Gamma sampling likelihood. Figure 12 shows the resulting coefficients. Despite we saw a slight relationship between PAR and Temperature and Humidity; having them in the GLM does not help with the overall RSS; hence we decided to leave them out to keep a parsimonious model. As we expected, the hour of the day holds the most influence over the Incident PAR. Next is directions. Both east and northeast tend to receive more sunlight. Height has a relatively "low" predictive power than the other covariates. It makes sense. No sensor receives radiation, no matter its height, during the night. Nevertheless, $\exp(0.0369)$ still results in $1.4\times$ more radiation per 1 meter higher than the baseline. That is $6.3\times$ difference between the top of the tree, 70-meter, and the bottom, 20-meter.
+
 \section{Graph Critique}
 \subsection{Part a: Log Transform of Data}
 We took a log transformation on the incident and the reflected PAR and plotted them. Note that since many zero values exist, we add a small positive constant to all values before taking the log.
@@ -254,6 +269,7 @@ Instead we have plotted a similar diagram but with each boxplot replaced by a KD
 
 \subsection{Part c: Sequence Plot Evaluation}
 The authors have plotted each node's readings with a unique color. Due to the large number of nodes, the colors are hard to distinguish and it is generally hard to pick out any trends. We consider two variations of the same plot, firstly, one where the information curve information is obscured and we plot a mean curve with estimated standard deviations, and two one where we color each curve by its height according to a color gradient.
+\\
 \\
 In the first variation, we color each curve by the height of its node. Generally one would use a sequential color bar to represent this information, however we have gound the sequential color bars hard to see due to large range of heights even after normalization. Hence we chose to use a diverging color bar instead. We can see from Figures \ref{fig:graph_crtique_c1} and \ref{fig:graph_crtique_c2}, that the plots now show us a very clear trend that higher up nodes have a lower humidity and higher temperature lower height nodes have a higher humidity and lower temperature.  This is new information that the previous graph of the authors were unable to showcase.
 \begin{figure}[h!]
