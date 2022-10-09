@@ -196,12 +196,32 @@ We consider two additional cleaning measures. Removing readings at low voltages 
 
 
 \section{Exploratory Data Analysis (EDA)}
+For exploration purposes, we first plot the four measurements in a pair-wise plot to see if any relationship exists. To avoid clutter and focus on the high-level correlation, we aggregated the sensor data by hour and height, assuming that the relationship predominantly occurs within a day and inter-day behaviors, more or less, follow a periodic pattern. As shown in Figure 9, Temperature and Humidity have a strong negative correlation. This makes sense. And both PAR measures showed a somewhat negative correlation with Humidity and a positive correlation with Temperature. This matches the intuition that we should expect low PAR during the night and early morning and high PAR during the day when the sun is out. The day is also the time that tends to have higher temperatures and lower humidity. Of course, there are exceptions, like when the redwood experience with large mist that can block the radiation.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{Fig5_graph_critique_a.png}
-\caption{PAR distribution under the log transformation}
-\label{fig:graph_crtique_a}
+\includegraphics[width=0.8\textwidth]{eda_3.1.png}
+\captionsetup{justification=centering}
+\caption{Feature Pairwise Plot}
 \end{figure*}
+
+The intra-day behaviors can be seen more explicitly in the following plots (Figures 10 and 11). PAR usually shoots up around 6 or 7 o'clock when the sun is up, reaches its highest around 4 PM, and shoots down after 6 PM. Temperature follows a similar pattern, with high measurements during the day and low measurements during the night, but with lower variances than PAR. On the other hand, Humidity expresses stable behavior across the day with slightly lower measurements between 10 AM to 5 PM.
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1\textwidth]{eda_3.2.png}
+\captionsetup{justification=centering}
+\caption{PAR Intra-Day Behavior}
+\end{figure*}
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1\textwidth]{eda_3.3.png}
+\captionsetup{justification=centering}
+\caption{Temperature and Humidity Intra-Day Behavior}
+\end{figure*}
+
+To go further, we would like to see if we can quantify the relation between Incident PAR and other covariates. Hence, we used a Generalized Linear Model (GLM) with a Gamma sampling likelihood. Figure 12 shows the resulting coefficients. 
+
+
 
 \section{Interesting Findings}
 \section{Graph Critique}
@@ -252,6 +272,7 @@ In the first variation, we color each curve by the height of its node. Generally
 \\
 
 \subsection{Part d: Differences in Network and Log}
+
 
 \end{document}
 
