@@ -197,46 +197,50 @@ We consider two additional cleaning measures. Removing readings at low voltages 
 
 \section{Exploratory Data Analysis (EDA)}
 \paragraph{Correlation Analysis}
-For exploration purposes, we first plot the four measurements in a pair-wise plot to see if any relationship exists. To avoid clutter and focus on the high-level correlation, we aggregated the sensor data by hour and height, assuming that the relationship predominantly occurs within a day and inter-day behaviors, more or less, follow a periodic pattern. As shown in Figure 9, Temperature and Humidity have a strong negative correlation. This makes sense. And both PAR measures showed a somewhat negative correlation with Humidity and a positive correlation with Temperature. This matches the intuition that we should expect low PAR during the night and early morning and high PAR during the day when the sun is out. The day is also the time that tends to have higher temperatures and lower humidity. Of course, there are exceptions, like when the redwood experience with large mist that can block the radiation.
+For exploration purposes, we first plot the four measurements in a pair-wise plot to see if any relationship exists. To avoid clutter and focus on the high-level correlation, we aggregated the sensor data by hour and height, assuming that the relationship predominantly occurs within a day and inter-day behaviors, more or less, follow a periodic pattern. As shown in Figure \ref{fig:pairwise}, Temperature and Humidity have a strong negative correlation. This makes sense. And both PAR measures showed a somewhat negative correlation with Humidity and a positive correlation with Temperature. This matches the intuition that we should expect low PAR during the night and early morning and high PAR during the day when the sun is out. The day is also the time that tends to have higher temperatures and lower humidity. Of course, there are exceptions, like when the redwood experience with large mist that can block the radiation.
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=0.8\textwidth]{eda_3.1.png}
 \captionsetup{justification=centering}
 \caption{Feature Pairwise Plot}
+\label{fig:pairwise}
 \end{figure*}
 
 
 \paragraph{Intra-Day Behavior}
-We can see the intra-day behavior more explicitly in the following plots (Figures 10 and 11). PAR usually shoots up around 6 or 7 o'clock when the sun is up, reaches its highest around 4 PM, and shoots down after 6 PM. Temperature follows a similar pattern, with high measurements during the day and low measurements during the night, but with lower variances than PAR. On the other hand, Humidity expresses stable behavior across the day with slightly lower measurements between 10 AM to 5 PM.
+We can see the intra-day behavior more explicitly in the following plots (Figures \ref{fig:par-intra-day} and \ref{fig:th-intra-day}). PAR usually shoots up around 6 or 7 o'clock when the sun is up, reaches its highest around 4 PM, and shoots down after 6 PM. Temperature follows a similar pattern, with high measurements during the day and low measurements during the night, but with lower variances than PAR. On the other hand, Humidity expresses stable behavior across the day with slightly lower measurements between 10 AM to 5 PM.
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=1\textwidth]{eda_3.2.png}
 \captionsetup{justification=centering}
 \caption{PAR Intra-Day Behavior}
+\label{fig:par-intra-day}
 \end{figure*}
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=1\textwidth]{eda_3.3.png}
 \captionsetup{justification=centering}
 \caption{Temperature and Humidity Intra-Day Behavior}
+\label{fig:th-intra-day}
 \end{figure*}
 
 
-\paragraph{Temporal Trend}
-asdasds
+\paragraph{Inter-Day Temporal Trend}
+Now we move away from the intra-day variations to the inter-day analysis. Here we plotted (Figure \ref{fig:ts_trend}) the first 4 days of the experiment because it has the highest data yield and quality. We can see that Temperature and Humidity vary wildly between days, and the differences in Height become less important. On the contrary, both PAR measures follow a periodic intra-day behavior and a similar daily pattern. The differences in Height are quite evident in Incident PAR but not that clear in Reflected PAR.
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=1.0\textwidth]{eda_3.4.png}
 \captionsetup{justification=centering}
-\caption{One Week Worth of Temporal Trend}
+\caption{4 Days Worth of Temporal Trend}
 \label{fig:ts_trend}
 \end{figure*}
 
 
 \paragraph{PCA Analysis}
+Lastly, we aggregated the data down the sensor node level and calculated the means for all four measures (humidity, temperature, incident, and reflected PAR) at each individual hour, along with their metadata (height, distance, and direction). The result is a $\mathbf{R}^{29x105}$ matrix. We ran a PCA analysis on it and would like to see how each node behavior differently at different hours of the day concerning any of the measurements.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=0.9\textwidth]{eda_3.6.jpg}
+\includegraphics[width=1.0\textwidth]{eda_3.6.jpg}
 \captionsetup{justification=centering}
 \caption{First 2 PCA Loadings and Scores}
 \label{fig:pca}
@@ -245,19 +249,19 @@ asdasds
 
 \section{Interesting Findings}
 \paragraph{Factor Analysis - Incident PAR with GLM}
+To go further, we would like to see if we can quantify the relation between Incident PAR and other covariates. Hence, we used a Generalized Linear Model (GLM) with a Gamma sampling likelihood. Figure \ref{fig:glm_coef} shows the resulting coefficients. Despite we saw a slight relationship between PAR and Temperature and Humidity; having them in the GLM does not help with the overall RSS; hence we decided to leave them out to keep a parsimonious model. As we expected, the hour of the day holds the most influence over the Incident PAR. Next is directions. Both east and northeast tend to receive more sunlight. Height has a relatively "low" predictive power than the other covariates. It makes sense. No sensor receives radiation, no matter its height, during the night. Nevertheless, $\exp(0.0369)$ still results in $1.4\times$ more radiation per 1 meter higher than the baseline. That is $6.3\times$ difference between the top of the tree, 70-meter, and the bottom, 20-meter.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=0.9\textwidth]{eda_3.5.png}
+\includegraphics[width=1.0\textwidth]{eda_3.5.png}
 \captionsetup{justification=centering}
 \caption{Incident PAR - GLM Coefficients}
 \label{fig:glm_coef}
 \end{figure*}
-To go further, we would like to see if we can quantify the relation between Incident PAR and other covariates. Hence, we used a Generalized Linear Model (GLM) with a Gamma sampling likelihood. Figure \ref{fig:glm_coef} shows the resulting coefficients. Despite we saw a slight relationship between PAR and Temperature and Humidity; having them in the GLM does not help with the overall RSS; hence we decided to leave them out to keep a parsimonious model. As we expected, the hour of the day holds the most influence over the Incident PAR. Next is directions. Both east and northeast tend to receive more sunlight. Height has a relatively "low" predictive power than the other covariates. It makes sense. No sensor receives radiation, no matter its height, during the night. Nevertheless, $\exp(0.0369)$ still results in $1.4\times$ more radiation per 1 meter higher than the baseline. That is $6.3\times$ difference between the top of the tree, 70-meter, and the bottom, 20-meter.
 
-\paragraph{Inter & Intra Day Clustering with GMM}
+\paragraph{Inter \& Intra Day Clustering with GMM}
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=0.9\textwidth]{if_4.3.png}
+\includegraphics[width=1.0\textwidth]{if_4.3.png}
 \captionsetup{justification=centering}
 \caption{Incident PAR - GLM Coefficients}
 \label{fig:glm_coef}
