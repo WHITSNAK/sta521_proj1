@@ -11,6 +11,9 @@
 \captionsetup{justification=raggedright, singlelinecheck=false}
 \usepackage{xcolor}
 \usepackage{multicol}
+\usepackage[title]{appendix}
+\usepackage[left=1cm, right=2cm]{geometry}
+\newgeometry{left=1.4cm,right=1.4cm,bottom=2cm, top=1cm}
 
 \title{Project 1: Redwoods Data Report}
 \author{Devin Ti and Ryan Tang}
@@ -56,71 +59,87 @@ The two datasets correspond to how the data is collected. All sensors capturing 
 \end{figure}
 
 \subsection{Part A: Histograms \& Converting Ranges}
-Figure \ref{fig1} is meant to be compared to figure xx in the paper. This highlights two issues: 1) That the ranges of the data are not necessarily the same between the \textit{sonoma\_log} and the \textit{sonoma\_net} datasets, and 2) Some of the measurement units are different from that of the paper, as can be seen by the vastly different ranges. We see this in the PAR variables \textit{hamatop} and \textit{hamabot}. This is expressed in table x, where we plot several statistics for each variable of interest. Therefore, one should not concatenate the two files without any pre-processing.
+Figure \ref{fig1} is meant to be compared to Figure 3a in the paper. This highlights two issues: 1) That the ranges of the data are not necessarily the same between the \textit{sonoma\_log} and the \textit{sonoma\_net} datasets, and 2) Some of the measurement units are different from that of the paper, as can be seen by the vastly different ranges. We see this in the PAR variables \textit{hamatop} and \textit{hamabot}. This is expressed in Tables \ref{table:sonoma_net_pre_transform} and \ref{table:sonoma_log_pre_transform}, where we plot several statistics for each variable of interest. Therefore, one should not concatenate the two files without any pre-processing.
 \\ \\
 We conducted two transformations:
 \begin{itemize}
     \item For hamatop and hamabot in both datasets, we posit that the collected PAR number is under the unit of LUX, and we need to convert it down to $\mu mol/m^2/s$ by dividing it by $54$. 
     \item For voltage in \textit{sonoma\_net},  we convert xx
 \end{itemize}
-Fig xx and table xx show the statistics and histograms of the variables after the transformations. As we can see, the ranges of the two histograms are still not equal. This is due to outliers. We will address this in Part B.
+Tables \ref{table:sonoma_net_post_transform} and \ref{table:sonoma_log_post_transform} show the statistics of the variables after the transformations. As we can see, the ranges of the two histograms are still not equal. This is due to outliers. We will address this in Part B.
 
 
 \begin{figure}[h!]
+\captionsetup{justification=centering}
+\centering
 \begin{tabular}{ |c|c|c|c|c|c| } 
     \hline & Median & Mean & SD & 25 Percentile & 75 Percentile \\ 
     \hline
-    Humidity & 1 & 72.12 & 21.32 & 57.10 & 92.60 \\
-    Temperature & 1 & 14.27 & 9.84 &	10.11  & 16.08\\
-    Voltage & 1 & 292.79 & 227.22 & 218.0 & 227.0 \\
-    Hamatop (incident PAR) & 1 & 11,521.65  & 24,962.81 & 0.0 & 8,436.36 \\
-    Hamabot (Reflected PAR) & 1 & 271.94 & 805.30  & 0.0 & 0.0 \\
+    Humidity & 72.05 & 72.12 & 21.32 & 57.10 & 92.60 \\
+    Temperature & 12.98 & 14.27 & 9.84 &	10.11  & 16.08\\
+    Voltage & 223.0 & 292.79 & 227.22 & 218.0 & 227.0 \\
+    Hamatop (incident PAR) & 10870.34 & 11,521.65  & 24,962.81 & 0.0 & 8,436.36 \\
+    Hamabot (Reflected PAR) & 245.53 & 271.94 & 805.30  & 0.0 & 0.0 \\
     \hline
+%\caption{Statistics for \textit{sonoma\_net} Pre-Transformation}
 \end{tabular}
-\caption{Statistics for \textit{sonoma\_net} Pre-Transformation}
+\captionof{table}{Statistics for \textit{sonoma\_net} Pre-Transformation}
+\label{table:sonoma_net_pre_transform}
 \end{figure}
 
 \begin{figure}[h!]
+\captionsetup{justification=centering}
+\centering
 \begin{tabular}{ |c|c|c|c|c|c| } 
     \hline & Median & Mean & SD & 25 Percentile & 75 Percentile \\ 
     \hline
-    Humidity & 1 & 61.41  &	31.06 	& 40.02 	 & 80.19 \\ 
-    Temperature & 1 & 15.02 	& 5.69 	& 10.86 	& 18.81 \\
-    Voltage & 1 & 2.50 	& 0.64  & 2.62  & 2.77 \\
-    Hamatop (incident PAR) & 1 & 10,870.34 & 48,422.14 & 0.0 & 6,762.33 \\
-    Hamabot (Reflected PAR) & 1 & 245.53 & 1,180.33 & 0.0 & 0.0 \\
+    Humidity & 61.58 & 61.41  &	31.06 	& 40.02 	 & 80.19 \\ 
+    Temperature & 14.71 & 15.02 	& 5.69 	& 10.86 	& 18.81 \\
+    Voltage & 2.69 & 2.50 	& 0.64  & 2.62  & 2.77 \\
+    Hamatop (incident PAR) & 0.0 & 10,870.34 & 48,422.14 & 0.0 & 6,762.33 \\
+    Hamabot (Reflected PAR) & 0.0 & 245.53 & 1,180.33 & 0.0 & 0.0 \\
     \hline
 \end{tabular}
-\caption{Statistics for \textit{sonoma\_log} Pre-Transformation}
+%\caption{Statistics for \textit{sonoma\_log} Pre-Transformation}
+\captionof{table}{Statistics for \textit{sonoma\_log} Pre-Transformation}
+\label{table:sonoma_log_pre_transform}
 \end{figure}
 
 \begin{figure}[h!]
+\captionsetup{justification=centering}
+\centering
 \begin{tabular}{ |c|c|c|c|c|c| } 
     \hline & Median & Mean & SD & 25 Percentile & 75 Percentile \\ 
     \hline
-    Voltage & 1 & ?& 227.22 & 218.0 & 227.0 \\
-    Hamatop (incident PAR) & 1 & 213.36 & 462.27 & 0.0 & 156.22\\
-    Hamabot (Reflected PAR) & 1 & 5.03	& 14.91 & 0.0 & 0.0 \\
+    Voltage & ? & ?& 227.22 & 218.0 & 227.0 \\
+    Hamatop (incident PAR) & 0.0 & 213.36 & 462.27 & 0.0 & 156.22\\
+    Hamabot (Reflected PAR) & 0.0 & 5.03	& 14.91 & 0.0 & 0.0 \\
     \hline
 \end{tabular}
-\caption{Statistics for \textit{sonoma\_net} after change of units}
+\captionof{table}{Statistics for \textit{sonoma\_net} after change of units}
+\label{table:sonoma_net_post_transform}
 \end{figure}
 
 \begin{figure}[h!]
+\captionsetup{justification=centering}
+\centering
 \begin{tabular}{ |c|c|c|c|c|c| } 
     \hline & Median & Mean & SD & 25 Percentile & 75 Percentile \\ 
     \hline
-    Hamatop (incident PAR) & 1 & 201.302679 & 896.706333 & 0.00000 & 125.228333 \\
-    Hamabot (Reflected PAR) & 1 & 4.546960 & 21.858109 &  0.00000 & 0.000000 \\
+    Hamatop (incident PAR) & 0.0 & 201.302679 & 896.706333 & 0.00000 & 125.228333 \\
+    Hamabot (Reflected PAR) & 0.0 & 4.546960 & 21.858109 &  0.00000 & 0.000000 \\
     \hline
 \end{tabular}
-\caption{Statistics for \textit{sonoma\_log} after change of units}
+%\caption{Statistics for \textit{sonoma\_log} after change of units}
+\captionof{table}{Statistics for \textit{sonoma\_log} after change of units}
+\label{table:sonoma_log_post_transform}
 \end{figure}
 
 \subsection{Part B: Missing Data}
 There are also several sensors with missing data recorded in at least one of the 4 fields. We filter these data points out and present the statistics in Table \ref{table:data_info}. There are many lines with missing data, forming 2.746\% and 3.706\% of the log and network datasets, respectively.
 
 \begin{figure}[h!]
+\captionsetup{justification=centering}
 \centering
 \begin{tabular}{ |c|c|c|c|c| } 
     \hline & n Original & n After Missing Data Removed & n Missing & \% Missing \\
@@ -129,30 +148,13 @@ There are also several sensors with missing data recorded in at least one of the
     \textit{sonoma\_net}  & 114,980 & 110,718 & 4,262 & 3.706\\
     \hline
 \end{tabular}
-\caption{Size of log and network data sets, before and after missing data is removed.}
+\captionof{table}{Size of log and network data sets, before and after missing data is removed.}
 \label{table:data_info}
 \end{figure}
 
 \subsection{Part C: Location Auxiliary Data}
-The next step is combining the measurements with the sensors' spatial information. This is done by joining the mote-location dataset with sonoma-log and sonoma-net on the ID and nodeid attributes, respectively. The resulting dataset has 14 columns each. Which are:
-    \begin{multicols}{3}
-    \begin{itemize}
-        \item result\_time
-        \item epoch
-        \item nodeid
-        \item parent
-        \item voltage
-        \item humidity
-        \item humid\_temp
-        \item humid\_adj
-        \item Incident\_PAR(hamatop)
-        \item Reflected\_PAR(hamabot)
-        \item Height
-        \item Direc
-        \item Dist
-        \item Tree
-    \end{itemize}
-    \end{multicols}
+The next step is combining the measurements with the sensors' spatial information. This is done by joining the mote-location dataset with sonoma-log and sonoma-net on the ID and nodeid attributes. The resulting datasets have 14 columns each. The column names are listed in appendix b.
+
 
 \subsection{Part D \& E: Outliers}
 In this section, we further cleaned the data by removing outliers. We consider 2 types of outlier data measurements. 
@@ -164,6 +166,7 @@ Point 1. can be done in 2 ways. Firstly we combine the net and log data, thresho
 
 \begin{figure}[h!]
 \centering
+\captionsetup{justification=centering}
 \includegraphics[width=1.0\textwidth]{Fig3_combined_hist.png}
 \caption{Before the outlier removal}
 \label{fig3:combined_hist}
@@ -181,6 +184,7 @@ In total, 864 points hit one of the conditions, with most data points (n=874) ha
 
 \begin{figure}[h!]
 \centering
+\captionsetup{justification=centering}
 \includegraphics[width=1.0\textwidth]{Fig4_combined_hist_after.png}
 \caption{After the outlier removal}
 \label{fig3:combined_hist_after_clean}
@@ -200,7 +204,7 @@ We consider two additional cleaning measures. Removing readings at low voltages 
 For exploration purposes, we first plot the four measurements in a pair-wise plot to see if any relationship exists. To avoid clutter and focus on the high-level correlation, we aggregated the sensor data by hour and height, assuming that the relationship predominantly occurs within a day and inter-day behaviors, more or less, follow a periodic pattern. As shown in Figure \ref{fig:pairwise}, Temperature and Humidity have a strong negative correlation. This makes sense. And both PAR measures showed a somewhat negative correlation with Humidity and a positive correlation with Temperature. This matches the intuition that we should expect low PAR during the night and early morning and high PAR during the day when the sun is out. The day is also the time that tends to have higher temperatures and lower humidity. Of course, there are exceptions, like when the redwood experience with large mist that can block the radiation.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{eda_3.1.png}
+\includegraphics[width=0.65\textwidth]{eda_3.1.png}
 \captionsetup{justification=centering}
 \caption{Feature Pairwise Plot}
 \label{fig:pairwise}
@@ -211,14 +215,14 @@ For exploration purposes, we first plot the four measurements in a pair-wise plo
 We can see the intra-day behavior more explicitly in the following plots (Figures \ref{fig:par-intra-day} and \ref{fig:th-intra-day}). PAR usually shoots up around 6 or 7 o'clock when the sun is up, reaches its highest around 4 PM, and shoots down after 6 PM. Temperature follows a similar pattern, with high measurements during the day and low measurements during the night, but with lower variances than PAR. On the other hand, Humidity expresses stable behavior across the day with slightly lower measurements between 10 AM to 5 PM.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=1\textwidth]{eda_3.2.png}
+\includegraphics[width=0.7\textwidth]{eda_3.2.png}
 \captionsetup{justification=centering}
 \caption{PAR Intra-Day Behavior}
 \label{fig:par-intra-day}
 \end{figure*}
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=1\textwidth]{eda_3.3.png}
+\includegraphics[width=0.7\textwidth]{eda_3.3.png}
 \captionsetup{justification=centering}
 \caption{Temperature and Humidity Intra-Day Behavior}
 \label{fig:th-intra-day}
@@ -229,7 +233,7 @@ We can see the intra-day behavior more explicitly in the following plots (Figure
 Now we move away from the intra-day variations to the inter-day analysis. Here we plotted (Figure \ref{fig:ts_trend}) the first 4 days of the experiment because it has the highest data yield and quality. We can see that Temperature and Humidity vary wildly between days, and the differences in Height become less important. On the contrary, both PAR measures follow a periodic intra-day behavior and a similar daily pattern. The differences in Height are quite evident in Incident PAR but not that clear in Reflected PAR.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{eda_3.4.png}
+\includegraphics[width=0.7\textwidth]{eda_3.4.png}
 \captionsetup{justification=centering}
 \caption{4 Days Worth of Temporal Trend}
 \label{fig:ts_trend}
@@ -237,13 +241,20 @@ Now we move away from the intra-day variations to the inter-day analysis. Here w
 
 
 \paragraph{PCA Analysis}
-Lastly, we aggregated the data down the sensor node level and calculated the means for all four measures (humidity, temperature, incident, and reflected PAR) at each individual hour, along with their metadata (height, distance, and direction). The result is a $\mathbf{R}^{29x105}$ matrix. We ran a PCA analysis on it and would like to see how each node behavior differently at different hours of the day concerning any of the measurements.
+Lastly, we aggregated the data down to the sensor level and calculated the means for all four measures (humidity, temperature, incident, and reflected PAR) at each individual hour, along with their metadata (height, distance, and direction). After some one-hot encoding, the result is a $\mathbf{R}^{29x105}$ matrix. We ran a PCA analysis on it and expected to see how each node behaves differently at different hours of the day concerning any of the measurements. The scree plot, Figure \ref{fig:pca_scree}, shows that the data process some lower-dimensional structures. With only 5 PC components, they explain up to 80\% of the variances. Moreover, we obtained an interesting insight by plotting the first and second PC components, Figure \ref{fig:pca_comp}, and color-coded them by each sensor's height. Most lower-level sensors experience fewer variations both during the day and the night. And those sensors located at the weather front of the tree tended to experience a large variation in either temperature and humidity at night or larger PAR during the day.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{eda_3.6.jpg}
+\includegraphics[width=0.4\textwidth]{eda_3.7.png}
+\captionsetup{justification=centering}
+\caption{PCA Scree Plot}
+\label{fig:pca_scree}
+\end{figure*}
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{eda_3.6.jpg}
 \captionsetup{justification=centering}
 \caption{First 2 PCA Loadings and Scores}
-\label{fig:pca}
+\label{fig:pca_comp}
 \end{figure*}
 
 
@@ -252,20 +263,25 @@ Lastly, we aggregated the data down the sensor node level and calculated the mea
 To go further, we would like to see if we can quantify the relation between Incident PAR and other covariates. Hence, we used a Generalized Linear Model (GLM) with a Gamma sampling likelihood. Figure \ref{fig:glm_coef} shows the resulting coefficients. Despite we saw a slight relationship between PAR and Temperature and Humidity; having them in the GLM does not help with the overall RSS; hence we decided to leave them out to keep a parsimonious model. As we expected, the hour of the day holds the most influence over the Incident PAR. Next is directions. Both east and northeast tend to receive more sunlight. Height has a relatively "low" predictive power than the other covariates. It makes sense. No sensor receives radiation, no matter its height, during the night. Nevertheless, $\exp(0.0369)$ still results in $1.4\times$ more radiation per 1 meter higher than the baseline. That is $6.3\times$ difference between the top of the tree, 70-meter, and the bottom, 20-meter.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{eda_3.5.png}
+\includegraphics[width=0.7\textwidth]{eda_3.5.png}
 \captionsetup{justification=centering}
 \caption{Incident PAR - GLM Coefficients}
 \label{fig:glm_coef}
 \end{figure*}
 
 \paragraph{Inter \& Intra Day Clustering with GMM}
+Next, we used GMM to cluster inter and intra-day behaviors under the assumption that the microclimate follows a low dimensional latent periodic regime change. For the inter-day relationship, we aggregated the data down to the day level, calculated the means and variances of all 4 variables, and followed a standardization treatment. The resulting GMM clusters are 3. We can see the redwood experience shift between two of the regime and occasionally switch to the third. Furthermore, for intra-day behaviors, we obtained the same features but at a 15-minute aggregation on only the date May 1st, 2004. Tolle also presented this day with a different perspective. Hence, we can have a comparison. As expected, the ideal GMM cluster for that day is 2. One for the night and one for the daytime.
 \begin{figure*}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{if_4.3.png}
+\includegraphics[width=0.8\textwidth]{if_4.3.png}
 \captionsetup{justification=centering}
 \caption{Incident PAR - GLM Coefficients}
 \label{fig:glm_coef}
 \end{figure*}
+
+\paragraph{Inter-Day Auto-Correlation}
+
+
 
 
 \section{Graph Critique}
@@ -274,7 +290,8 @@ We took a log transformation on the incident and the reflected PAR and plotted t
 \\ \\
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{Fig5_graph_critique_a.png}
+\captionsetup{justification=centering}
+\includegraphics[width=0.9\textwidth]{Report Images/graph_critique_a_v2.png}
 \caption{PAR distribution under the log transformation}
 \label{fig:graph_crtique_a}
 \end{figure}
@@ -290,7 +307,8 @@ We focus on point 2, as the author's meant to remove the time dimension in the p
 Instead we have plotted a similar diagram but with each boxplot replaced by a KDE plot of the values. This is plotted in Figure \ref{fig:graph_crtique_b}. Note that we have sub-sampled the heights in order to create a plot more reasonably sized plot. With the KDE we can see clearly both the large number of zeros as well as the shifting distribution of the non zero values as the height increases.
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{Report Images/Fig7_graph_criqitue_bv2.png}
+\captionsetup{justification=centering}
+\includegraphics[width=0.9\textwidth]{Report Images/Fig7_graph_criqitue_bv2.png}
 \caption{PAR distribution under the log transformation}
 \label{fig:graph_crtique_b}
 \end{figure}
@@ -300,17 +318,19 @@ Instead we have plotted a similar diagram but with each boxplot replaced by a KD
 The authors have plotted each node's readings with a unique color. Due to the large number of nodes, the colors are hard to distinguish and it is generally hard to pick out any trends. We consider two variations of the same plot, firstly, one where the information curve information is obscured and we plot a mean curve with estimated standard deviations, and two one where we color each curve by its height according to a color gradient.
 \\
 \\
-In the first variation, we color each curve by the height of its node. Generally one would use a sequential color bar to represent this information, however we have gound the sequential color bars hard to see due to large range of heights even after normalization. Hence we chose to use a diverging color bar instead. We can see from Figures \ref{fig:graph_crtique_c1} and \ref{fig:graph_crtique_c2}, that the plots now show us a very clear trend that higher up nodes have a lower humidity and higher temperature lower height nodes have a higher humidity and lower temperature.  This is new information that the previous graph of the authors were unable to showcase.
+In the first variation, we color each curve by the height of its node. Generally one would use a sequential color bar to represent this information, however we have found the sequential color bars hard to see due to large range of heights even after normalization. Hence we chose to use a diverging color bar instead. We can see from Figures \ref{fig:graph_crtique_c1} and \ref{fig:graph_crtique_c2}, that the plots now show us a very clear trend that higher up nodes have a lower humidity and higher temperature lower height nodes have a higher humidity and lower temperature.  This is new information that the previous graph of the authors were unable to showcase.
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{Report Images/fig8_graph_critique_c1.png}
+\captionsetup{justification=centering}
+\includegraphics[width=0.9\textwidth]{Report Images/fig8_graph_critique_c1.png}
 \caption{Time Series of Humidity Values Per Node with Curves Colored by Node Height}
 \label{fig:graph_crtique_c1}
 \end{figure}
 \\
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{Report Images/fig8_graph_critique_c2.png}
+\captionsetup{justification=centering}
+\includegraphics[width=0.9\textwidth]{Report Images/fig8_graph_critique_c2.png}
 \caption{Time Series of Temperature Values Per Node with Curves Colored by Node Height}
 \label{fig:graph_crtique_c2}
 \end{figure}
@@ -318,6 +338,39 @@ In the first variation, we color each curve by the height of its node. Generally
 
 \subsection{Part d: Differences in Network and Log}
 
+asd
+
+\pagebreak
+
+\begin{appendices}
+\section{Data Pre-Processing Plots and Tables}
+% the \\ insures the section title is centered below the phrase: AppendixA
+
+Text of Appendix A is Here
+
+\section{Features in Data}
+% the \\ insures the section title is centered below the phrase: Appendix B
+
+\begin{multicols}{3}
+\begin{itemize}
+    \item result\_time
+    \item epoch
+    \item nodeid
+    \item parent
+    \item voltage
+    \item humidity
+    \item humid\_temp
+    \item humid\_adj
+    \item Incident\_PAR(hamatop)
+    \item Reflected\_PAR(hamabot)
+    \item Height
+    \item Direc
+    \item Dist
+    \item Tree
+\end{itemize}
+\end{multicols}
+
+\end{appendices}
 
 \end{document}
 
